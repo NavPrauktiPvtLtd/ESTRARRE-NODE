@@ -1,0 +1,49 @@
+{
+    "SENSOR_CONTROL": {
+         "SENSOR-ID": ,
+         "CATEGORY": ,
+         "NAME": "TEMPERATURE",
+         "UNIT": "celcius",
+         "HW_SERIAL_NUMBER": ,
+         "HW_PART_NUMBER": ,
+         "HW_MANUFACTURER": "",
+         "HW_REVISION": "",
+         "POWER_OFF": 0,
+         "RESET": 0,
+         "PLAY": 1,
+         "READ_DATA": 1,
+         "DATA_TYPE": "INT",
+         "WRITE_MEMORY": 0,
+         "WRITE_CALIB": 0,
+         "READ_MEMORY": 0,
+         "READ_CALIB": 0,
+         "CALIB_VOID": 1,
+         "RUN_SELF_TEST": 0,
+         "ERROR_CODE": 0
+    },
+    "ACTUATOR_CONTROL": {
+         "SENSOR-ID": "X",
+         "CATEGORY": ,
+         "NAME": ,
+         "UNIT": ,
+         "HW_SERIAL_NUMBER": ,
+         "HW_PART_NUMBER": ,
+         "HW_MANUFACTURER": ,
+         "HW_REVISION": ,
+         "POWER-OFF": ,
+         "RESET": ,
+         "RUN": ,
+         "WRITE_DATA": ,
+         "DATA_TYPE": ,
+         "WRITE_MEMORY": ,
+         "WRITE_CALIB": ,
+         "READ_MEMORY": ,
+         "READ_CALIB": ,
+         "RUN_SELF_TEST": ,
+         "ERROR_CODE": 
+    },
+    "COMMAND/DATA_TRANSLATION": {
+         "CMD_TRANSLATION": 1,
+         "DATA_TRANSLATION": 1
+    }
+}
