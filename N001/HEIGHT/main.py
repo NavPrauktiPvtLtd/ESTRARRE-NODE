@@ -1,12 +1,19 @@
 #!/usr/bin/env python
 
 import time
-import sys
-import signal
+import json
 
 import driver.VL53L1X as VL53L1X
+import os
 
-
+cwd = os.getcwd()
+path = cwd + "/hal."
+with open("/home/pi/PROJECTS/ESTRARRE-NODE/N001/HEIGHT/hal.json", "r") as f:
+    hal = json.load(f)
+# POWER_OFF is low while running this script
+hal["SENSOR_CONTROL"]["POWER_OFF"] = 0
+with open("/home/pi/PROJECTS/ESTRARRE-NODE/N001/HEIGHT/hal.json", "w") as f:
+    json.dump(hal, f, indent=4)
 
 
 
@@ -35,27 +42,17 @@ tof.start_ranging(1)  # Start ranging
 running = True
 
 
-def exit_handler(signal, frame):
-    global running
-    running = False
-    tof.stop_ranging()
-    print()
-    sys.exit(0)
 
 
-# Attach a signal handler to catch SIGINT (Ctrl+C) and exit gracefully
-signal.signal(signal.SIGINT, exit_handler)
-
-while running:
+# while running:
+for i in range(10):
     distance_in_mm = tof.get_distance()
     print("Distance: {}mm".format(distance_in_mm))
     time.sleep(0.1)
 # distance = []
-# for i in range(5):
-    
-#     distance_in_mm = tof.get_distance()
-#     distance.append(distance_in_mm)
-#     time.sleep(1)
-#     # print(distance_in_mm)
 
-# print(distance)
+hal["SENSOR_CONTROL"]["POWER_OFF"] = 1
+with open("/home/pi/PROJECTS/ESTRARRE-NODE/N001/HEIGHT/hal.json", "w") as f:
+    json.dump(hal, f, indent=4)
+
+f.close()
