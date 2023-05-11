@@ -45,11 +45,13 @@ class MLX90614():
 
 
 
-channel = 1
-bus = SMBus(channel)
-sensor = MLX90614(bus, address=0x5A)
-amb_temp=round(sensor.get_amb_temp(), 2)
-obj_temp=round(sensor.get_obj_temp(), 2)
-print ('Ambiant temperature: '+ str(amb_temp)+'˚C')
-print ('Object temperature: '+ str(obj_temp)+'˚C')
-bus.close()
+def get_temp_data():
+    channel = 1
+    bus = SMBus(channel)
+    sensor = MLX90614(bus, address=0x5A)
+    amb_temp=round(sensor.get_amb_temp(), 2)
+    obj_temp=round(sensor.get_obj_temp(), 2)
+    # print ('Ambiant temperature: '+ str(amb_temp)+'˚C')
+    # print ('Object temperature: '+ str(obj_temp)+'˚C')
+    bus.close()
+    return obj_temp

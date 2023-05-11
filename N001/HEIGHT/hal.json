@@ -1,6 +1,6 @@
 {
     "SENSOR_CONTROL": {
-        "SENSOR-ID": 1,
+        "SENSOR-ID": 2,
         "CATEGORY": "MEDICAL",
         "NAME": "HEIGHT",
         "UNIT": "cm",

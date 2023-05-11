@@ -14,8 +14,8 @@ BUFFER_SIZE = 100
 # this assumes ir_data and red_data as np.array
 def calc_spo2(ir_data, red_data):
 
-    ir_mean = int(np.mean(ir_data))
-    x = -1 * (np.array(ir_data) - ir_mean)
+    red_mean = int(np.mean(red_data))
+    x = -1 * (np.array(red_data) - red_mean)
     x1=[]
     for i in range(x.shape[0]-MA_SIZE):
         x1.append((np.sum(x[i:i+MA_SIZE]) / MA_SIZE))
@@ -26,7 +26,7 @@ def calc_spo2(ir_data, red_data):
     
 
 
-    ir_valley_locs, n_peaks = find_peaks(x1, BUFFER_SIZE-MA_SIZE, n_th, 4, 15)
+    ir_valley_locs, n_peaks = find_peaks(x1, BUFFER_SIZE-MA_SIZE, n_th, 4, 5)
     print(ir_valley_locs)
 
     # ---------spo2---------
@@ -218,12 +218,12 @@ for i in range(10):
     # ax2.set_xlabel('Time')
     # ax2.set_ylabel('IR DATA')
     # plt.show()
-    # fig, ax = plt.subplots()
-    # ax.plot(t, red_data, label='RED')
-    # ax.plot(t, ir_data, label='IR')
+    fig, ax = plt.subplots()
+    ax.plot(t, red_data, label='RED')
+    ax.plot(t, ir_data, label='IR')
 
-    # ax.legend()
-    # plt.show()
+    ax.legend()
+    plt.show()
 # plotting
 
 
