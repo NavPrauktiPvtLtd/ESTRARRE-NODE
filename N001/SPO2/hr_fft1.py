@@ -1,25 +1,26 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
+
+
+import json
 import driver.MAX30102 as MAX30102
-sample_size = 100
-# Generate a sample signal
-t = range(sample_size)
-
-m = MAX30102.MAX30102()
-
 
 def rem_of_base_var(data):
     data[0:2] = np.mean(data)
     signal = np.array(data)
     mean = np.mean(signal)
-    # std = np.std(signal)
-    normalized_signal = (signal - mean)
+    std = np.std(signal)
+    normalized_signal = (signal - mean)/std
     return normalized_signal
+
 
 def find_peaks(x, y,  size):
     
     #Find all peaks 
+    
+    
+
     i = 0
     max_value = 0
     max_freq = 0
@@ -44,63 +45,47 @@ def find_peaks(x, y,  size):
             i += 1
 
     return ir_valley_locs, max_value, max_freq
+sample_size = 100
+# Generate a sample signal
+t = range(sample_size)
 
-
-def inverse_fft(red_data, size):
-    red_data = rem_of_base_var(red_data)
-    # Compute the FFT of the signal
-    fft_result = np.fft.fft(red_data,1000)
-
-    # Compute the frequency axis. d= 1/f 
-    freq_axis = np.fft.fftfreq(1000, d=0.04)
-
-    # Filter out frequencies above 4 Hz
-    fft_y_filtered = fft_result.copy()
-    fft_y_filtered[np.abs(freq_axis) > 5 ] = 0
-    fft_y_filtered[np.abs(freq_axis) < 0.5 ] =0
-    # Compute the inverse FFT to get the filtered signal
-    y_filtered = np.fft.ifft(fft_y_filtered)
-    y_filtered = y_filtered.real
-    return y_filtered[:size], fft_result, freq_axis
-
+m = MAX30102.MAX30102()
 
 for i in range(5):
+
     red_data, _, _= m.read_sequential(sample_size)
-
     red_data = np.array(red_data)
-
-    # y_filtered, fft_result, freq_axis = inverse_fft(red_data, sample_size)
+    
     red_data = rem_of_base_var(red_data)
-    # Compute the FFT of the signal
+# Compute the FFT of the signal
     fft_result = np.fft.fft(red_data,1000)
 
-    # Compute the frequency axis. d= 1/f 
+# Compute the frequency axis. d= 1/f 
     freq_axis = np.fft.fftfreq(1000, d=0.04)
-
+    """
     # Filter out frequencies above 4 Hz
-    fft_y_filtered = fft_result.copy()
-    fft_y_filtered[np.abs(freq_axis) > 5 ] = 0
-    fft_y_filtered[np.abs(freq_axis) < 0.5 ] =0
-    # Compute the inverse FFT to get the filtered signal
-    y_filtered = np.fft.ifft(fft_y_filtered)
-    y_filtered = y_filtered.real
-
-    #find the peak frequency
+fft_y_filtered = fft_result.copy()
+fft_y_filtered[np.abs(freq_axis) > 2 ] = 0
+fft_y_filtered[np.abs(freq_axis) < 0.5 ] =0
+# Compute the inverse FFT to get the filtered signal
+y_filtered = np.fft.ifft(fft_y_filtered)
+"""
+#find the peak frequency
 
     Power_fft= np.abs(fft_result)**2
     _, max_mag, max_freq = find_peaks(Power_fft[20:120], freq_axis[20:120], 100) 
 
-    # Plot the signal and its FFT
-    
+# Plot the signal and its FFT
 
-    fig, (ax1, ax2) = plt.subplots(2, 1)
-    ax1.plot(t, red_data)
-    ax1.set_xlabel('Time')
-    ax1.set_ylabel('Amplitude')
-    ax2.plot(t,y_filtered[:100])
-    ax2.set_xlabel('Frequency')
-    ax2.set_ylabel('Magnitude')
-    plt.show()  
+
+    # fig, (ax1, ax2) = plt.subplots(2, 1)
+    # ax1.plot(t, red_data)
+    # ax1.set_xlabel('Time')
+    # ax1.set_ylabel('Amplitude')
+    # ax2.plot(freq_axis,Power_fft )
+    # ax2.set_xlabel('Frequency')
+    # ax2.set_ylabel('Magnitude')
+    # plt.show()  
 
     print(round(max_freq*60, ))
 

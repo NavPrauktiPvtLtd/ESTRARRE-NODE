@@ -1,9 +1,9 @@
 {
     "SENSOR_CONTROL": {
-         "SENSOR-ID": "2",
+         "SENSOR-ID": "6",
          "CATEGORY": "",
-         "NAME": "HEIGHT",
-         "UNIT": "cm",
+         "NAME": "WEIGHT",
+         "UNIT": "kg",
          "HW_SERIAL_NUMBER": "",
          "HW_PART_NUMBER": "",
          "HW_MANUFACTURER": "",
