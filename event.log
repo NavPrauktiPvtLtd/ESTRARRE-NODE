@@ -1,0 +1,39 @@
+2023-06-12 11:21:16-ERROR- critical
+12-06-2023 11:46:10-ERROR- VL53L1X not found on adddress: 29
+Traceback (most recent call last):
+  File "/home/pi/PROJECTS/ESTRARRE-NODE/N001/HEIGHT/driver/VL53L1X.py", line 95, in __init__
+    self._i2c.read_byte_data(self.i2c_address, 0x00)
+  File "/home/pi/PROJECTS/ESTRARRE-NODE/venv/lib/python3.9/site-packages/smbus2/smbus2.py", line 433, in read_byte_data
+    ioctl(self.fd, I2C_SMBUS, msg)
+OSError: [Errno 121] Remote I/O error
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/pi/PROJECTS/ESTRARRE-NODE/N001/HEIGHT/main.py", line 30, in get_height_data
+    tof = VL53L1X(i2c_bus=1, i2c_address=0x29)
+  File "/home/pi/PROJECTS/ESTRARRE-NODE/N001/HEIGHT/driver/VL53L1X.py", line 97, in __init__
+    raise RuntimeError("VL53L1X not found on adddress: {:02x}".format(self.i2c_address))
+RuntimeError: VL53L1X not found on adddress: 29
+12-06-2023 11:46:15-ERROR- VL53L1X not found on adddress: 29
+Traceback (most recent call last):
+  File "/home/pi/PROJECTS/ESTRARRE-NODE/N001/HEIGHT/driver/VL53L1X.py", line 95, in __init__
+    self._i2c.read_byte_data(self.i2c_address, 0x00)
+  File "/home/pi/PROJECTS/ESTRARRE-NODE/venv/lib/python3.9/site-packages/smbus2/smbus2.py", line 433, in read_byte_data
+    ioctl(self.fd, I2C_SMBUS, msg)
+OSError: [Errno 121] Remote I/O error
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/pi/PROJECTS/ESTRARRE-NODE/N001/HEIGHT/main.py", line 30, in get_height_data
+    tof = VL53L1X(i2c_bus=1, i2c_address=0x29)
+  File "/home/pi/PROJECTS/ESTRARRE-NODE/N001/HEIGHT/driver/VL53L1X.py", line 97, in __init__
+    raise RuntimeError("VL53L1X not found on adddress: {:02x}".format(self.i2c_address))
+RuntimeError: VL53L1X not found on adddress: 29
+2023-06-13 12:54:08-ERROR- unsupported operand type(s) for -: 'int' and 'str'
+2023-06-13 12:54:39-ERROR- unsupported operand type(s) for -: 'int' and 'str'
+2023-06-13 12:54:46-ERROR- unsupported operand type(s) for -: 'int' and 'str'
+2023-06-13 12:54:54-ERROR- unsupported operand type(s) for -: 'int' and 'str'
+2023-06-13 12:56:41-ERROR- unsupported operand type(s) for -: 'int' and 'str'
+2023-06-13 12:56:47-ERROR- unsupported operand type(s) for -: 'int' and 'str'

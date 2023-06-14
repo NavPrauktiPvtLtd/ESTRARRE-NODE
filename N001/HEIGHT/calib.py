@@ -8,27 +8,34 @@
 #      – Gasket is required
 
 import time
+import logging
+import driver.VL53L1X as VL53L1X
+logging.basicConfig(filename="error.log",level=logging.DEBUG, format='%(asctime)s-%(levelname)s- %(message)s',
+                     datefmt='%Y-%m-%d %H:%M:%S')
 
-import HEIGHT.driver.VL53L1X as VL53L1X
+try:
 
-tof = VL53L1X.VL53L1X(i2c_bus=1, i2c_address=0x29)
-tof.open()
+    tof = VL53L1X.VL53L1X(i2c_bus=1, i2c_address=0x29)
+    tof.open()
 
-tof.start_ranging(1)  # Start ranging
-                      # 0 = Unchanged
-                      # 1 = Short Range
-                      # 2 = Medium Range
-                      # 3 = Long Range
+    tof.start_ranging(1)  # Start ranging
+                        # 0 = Unchanged
+                        # 1 = Short Range(upto 1.3 meter)
+                        # 2 = Medium Range(upto 3 meter)
+                        # 3 = Long Range(upto 4 meter)
 
 
 
-dis_known=input("Enter the distance", )
-data = []
-for i in range(5):
-    distance_in_mm = tof.get_distance()
-    data.append(distance_in_mm)
-    # print("Distance: {}mm".format(distance_in_mm))
-    time.sleep(0.5)
-dis_measured= sum(data)/len(data)
-calib = dis_known - dis_measured
-print(calib)
+    dis_known=0#input("Enter the distance in cm", )
+    data = []
+
+    # for i in range(50):
+    distance_in_cm = (tof.get_distance())/10 
+    data.append(distance_in_cm)
+    print("Distance: {}cm".format(distance_in_cm))
+    time.sleep(1)
+    dis_measured= sum(data)/len(data)
+    calib = int(dis_known) - dis_measured
+    print(calib)
+except Exception as e:
+    logging.error('critical')
