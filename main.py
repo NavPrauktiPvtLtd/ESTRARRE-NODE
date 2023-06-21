@@ -34,7 +34,7 @@ async def read_root():
 async def read_item(sensor_id: str, q: Union[str, None] = None):
     
     # logging the GET request
-    logging.info("GET /sensor/{sensor_id}/start")
+    logging.info("GET /sensor/" + sensor_id + "/start")
     try:
         if sensor_id == '2':
             data = await get_height_data()
