@@ -59,7 +59,7 @@ async def read_item(sensor_id: str, q: Union[str, None] = None):
 async def read_item(step: str,offset: Union[int, None] = None, ratio: Union[float, None] = None):
     
     # Logging the GET request
-    logging.info("GET /sensor/weight/calib/{step}")
+    logging.info("GET /sensor/weight/calib/" + step)
     
     try:
         if step == '1':
