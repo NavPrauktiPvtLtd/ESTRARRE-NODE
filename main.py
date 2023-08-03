@@ -1,7 +1,8 @@
 from typing import Union
 from fastapi import FastAPI, HTTPException
 import logging
-from N001.TEMPERATURE.main import get_temp_data
+#from N001.TEMPERATURE.main import get_temp_data
+from N001.TEMPERATURE.i2c_to_pi import get_temp_data
 from N001.HEIGHT.main import get_height_data
 from N001.WEIGHT.main import get_weight_data
 from N001.WEIGHT.calib import offset_calc, ratio_calc, set_calib_value
@@ -43,7 +44,7 @@ async def read_item(sensor_id: str, q: Union[str, None] = None):
         if sensor_id == '6':
             data = get_weight_data()
             
-        logging.INFO(data)
+        logging.info(data)
 
         return {"sensor_id": sensor_id,"sensor_name":sensor[sensor_id], 'data': data}
     except:
