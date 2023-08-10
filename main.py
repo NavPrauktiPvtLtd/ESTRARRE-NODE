@@ -1,13 +1,23 @@
 from typing import Union
 from fastapi import FastAPI, HTTPException
 import logging
-#from N001.TEMPERATURE.main import get_temp_data
+from N001.TEMPERATURE.main import get_temp_data
 from N001.TEMPERATURE.i2c_to_pi import get_temp_data
 from N001.HEIGHT.main import get_height_data
 from N001.WEIGHT.main import get_weight_data
 from N001.WEIGHT.calib import offset_calc, ratio_calc, set_calib_value
+import psutil
+import speedtest
+import json
 
 app = FastAPI()
+
+speed_test = speedtest.Speedtest()
+
+def bytes_to_mb(bytes):
+  KB = 1024 # One Kilobyte is 1024 bytes
+  MB = KB * 1024 # One MB is 1024 KB
+  return int(bytes/MB)
 
 # Logging file initialisation
 logging.basicConfig(filename="event.log",level=logging.DEBUG, format='%(asctime)s-%(levelname)s- %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
@@ -79,3 +89,36 @@ async def read_item(step: str,offset: Union[int, None] = None, ratio: Union[floa
         logging.error(e)
         return {"error": "invalid step", "data": str(e)}
     
+@app.get("/system/health")
+async def health():
+    logging.info("GET /system/health")
+    try:
+        download_speed = bytes_to_mb(speed_test.download())
+        print("Your Download speed is", download_speed, "MB")
+        upload_speed = bytes_to_mb(speed_test.upload())
+        print("Your Upload speed is", upload_speed, "MB")
+
+        health = {
+            "ram": {
+                "percentage used": psutil.virtual_memory()[2],
+                "total(GB)": psutil.virtual_memory()[1]/1000000000,
+                "used(GB)": psutil.virtual_memory()[3]/1000000000
+            },
+            #"temp": psutil.sensors_temperatures(fahrenheit=False)[2],
+            "storage": {
+                "total(GB)": psutil.disk_usage('/')[0]/1000000000,
+                "used(GB)": psutil.disk_usage('/')[1]/1000000000
+            },
+            "cpu(%)": psutil.cpu_percent(4),
+            "network_speed(MB)": {
+                "download": download_speed,
+                "upload": upload_speed
+            }
+        }
+        #print(health)
+        return {"health": health, "success": True}
+    
+    except Exception as e:
+        print(e)
+        return {"error": "Something went wrong", "success": False}
+        

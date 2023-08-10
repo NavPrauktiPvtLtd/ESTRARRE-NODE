@@ -138,3 +138,4 @@ RuntimeError: VL53L1X not found on adddress: 29
 21-06-2023 08:46:18-INFO- GET /sensor/5/start
 21-06-2023 08:46:18-ERROR- [Errno 2] could not open port /dev/ttyUSB0: [Errno 2] No such file or directory: '/dev/ttyUSB0'
 21-06-2023 08:46:18-ERROR- Invalid Sensor ID
+2023-08-10 13:24:31-INFO- GET /system/health
