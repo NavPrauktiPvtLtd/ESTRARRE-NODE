@@ -1,7 +1,7 @@
 from typing import Union
 from fastapi import FastAPI, HTTPException
 import logging
-from N001.TEMPERATURE.main import get_temp_data
+#from N001.TEMPERATURE.main import get_temp_data
 from N001.TEMPERATURE.i2c_to_pi import get_temp_data
 from N001.HEIGHT.main import get_height_data
 from N001.WEIGHT.main import get_weight_data
@@ -12,7 +12,7 @@ import json
 
 app = FastAPI()
 
-speed_test = speedtest.Speedtest()
+speed_test = speedtest.Speedtest(secure=True)
 
 def bytes_to_mb(bytes):
   KB = 1024 # One Kilobyte is 1024 bytes
@@ -90,7 +90,7 @@ async def read_item(step: str,offset: Union[int, None] = None, ratio: Union[floa
         return {"error": "invalid step", "data": str(e)}
     
 @app.get("/system/health")
-async def health():
+async def system_health():
     logging.info("GET /system/health")
     try:
         download_speed = bytes_to_mb(speed_test.download())
@@ -118,6 +118,30 @@ async def health():
         #print(health)
         return {"health": health, "success": True}
     
+    except Exception as e:
+        print(e)
+        return {"error": "Something went wrong", "success": False}
+        
+@app.get("/sensor/health")
+async def sensor_health():
+    logging.info("GET /sensor/health")
+    faulty_sensors = []
+    try:
+        temp = get_temp_data()
+        if(temp == None):
+            faulty_sensors.append("Temperature")
+        
+        height = await get_height_data()
+        if(height == None):
+            faulty_sensors.append("Height")
+            
+        weight = get_weight_data()
+        if(weight == None):
+            faulty_sensors.append("Weight")
+        
+        
+        
+        return {"faulty_sensors" : faulty_sensors}
     except Exception as e:
         print(e)
         return {"error": "Something went wrong", "success": False}
