@@ -88,7 +88,8 @@ async def read_item(step: str,offset: Union[int, None] = None, ratio: Union[floa
         # Logging the error
         logging.error(e)
         return {"error": "invalid step", "data": str(e)}
-    
+
+# Get system health    
 @app.get("/system/health")
 async def system_health():
     logging.info("GET /system/health")
@@ -121,7 +122,8 @@ async def system_health():
     except Exception as e:
         print(e)
         return {"error": "Something went wrong", "success": False}
-        
+ 
+# Get sensor health        
 @app.get("/sensor/health")
 async def sensor_health():
     logging.info("GET /sensor/health")
@@ -138,8 +140,6 @@ async def sensor_health():
         weight = get_weight_data()
         if(weight == None):
             faulty_sensors.append("Weight")
-        
-        
         
         return {"faulty_sensors" : faulty_sensors}
     except Exception as e:
